@@ -1,0 +1,6 @@
+CompilerOracle: exclude jregex/Pretokenizer.next
+Listening for transport dt_socket at address: 8000
+00:13:15,112 INFO  ~ Starting /root/LivePPT-JavaPlay/LivePPT
+00:13:16,128 WARN  ~ You're running Play! in DEV mode
+00:13:16,371 INFO  ~ Listening for HTTP on port 9000 (Waiting a first request to start) ...
+00:15:10,236 INFO  ~ Application 'LivePPT' is now started !
