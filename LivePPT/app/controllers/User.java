@@ -15,11 +15,8 @@ public class User extends Controller {
     public static Result login() {
         // return ok(index.render("MY new application is ready."));
         System.out.println("Here is the POST login process!");
-        System.out.println("Here is the POST login process!");
-        System.out.println("Here is the POST login process!");
-        System.out.println("Here is the POST login process!");
-        System.out.println("Here is the POST login process!");
-        return ok("TODO");
+        // return ok(index.render());
+        return ok("Hello! Fevers~");
     }
 
     public static Result resign() {
