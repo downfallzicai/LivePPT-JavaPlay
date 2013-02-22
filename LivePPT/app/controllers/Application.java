@@ -8,6 +8,7 @@ import views.html.*;
 public class Application extends Controller {
   
     public static Result index() {
+    	System.out.println("Here is index page!");
         return ok(index.render());
     }
 

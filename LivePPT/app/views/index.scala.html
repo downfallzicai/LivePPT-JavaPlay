@@ -1,8 +1,25 @@
 <html>
 <head>
-
-</head>
 <title>LivePPT--by Fever</title>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function(){
+  $("button").click(function(){
+    $.post("/login",
+    {
+      name:"Donald Duck",
+      city:"Duckburg"
+    },
+    function(data,status){
+      alert("数据：" + data + "\n状态：" + status);
+    });
+  });
+});
+</script>
+</head>
+
 
 <body>
 Welcome!<br>
@@ -11,7 +28,8 @@ Here is the Fever/LivePPT test page.<br>
 On Ubuntu 12.04 <br>
 LiWeiJie <br>
 <a  href="/login">login</a><br>
-<a  href="/resign">resign</a>
+<a  href="/resign">resign</a><br>
+<button>向页面发送 HTTP POST 请求，并获得返回的结果</button>
 
 </body>
 
