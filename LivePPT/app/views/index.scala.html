@@ -2,7 +2,8 @@
 <head>
 <title>LivePPT--by Fever</title>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")"></script>
+
 
 <script>
 $(document).ready(function(){
@@ -16,6 +17,21 @@ $(document).ready(function(){
       alert("数据：" + data + "\n状态：" + status);
     });
   });
+
+  $.ajax({
+    url:'/login',
+    type:'post',
+    data:{
+      id: "2345678",
+
+    }
+    success:function(res){
+      console.log(res);
+    },
+    error:function(e){
+
+    }
+  })
 });
 </script>
 </head>

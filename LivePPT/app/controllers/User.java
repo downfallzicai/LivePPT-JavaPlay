@@ -24,10 +24,10 @@ public class User extends Controller {
         return TODO;
     }
 
-    // public static Result test(String username) {
-    //     // return ok(index.render("MY new application is ready."));
-    //     System.out.println(username);
-    //     return TODO;
-    // }
+    public static Result test(String username) {
+        // return ok(index.render("MY new application is ready."));
+        System.out.println(username);
+        return TODO;
+    }
   
 }
