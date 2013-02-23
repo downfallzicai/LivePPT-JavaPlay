@@ -10,8 +10,8 @@ $(document).ready(function(){
   $("button").click(function(){
     $.post("/login",
     {
-      name:"Donald Duck",
-      city:"Duckburg"
+      email:"fever.com",
+      password:"fever"
     },
     function(data,status){
       alert("数据：" + data + "\n状态：" + status);
@@ -22,9 +22,9 @@ $(document).ready(function(){
     url:'/login',
     type:'post',
     data:{
-      id: "2345678",
-
-    }
+      email: "2345678",
+      password: "2345678",
+    },
     success:function(res){
       console.log(res);
     },
@@ -32,6 +32,8 @@ $(document).ready(function(){
 
     }
   })
+
+  
 });
 </script>
 </head>

@@ -4,6 +4,8 @@ import play.*;
 import play.mvc.*;
 
 import views.html.*;
+import java.util.Map;
+
 
 public class User extends Controller {
   
@@ -15,8 +17,13 @@ public class User extends Controller {
     public static Result login() {
         // return ok(index.render("MY new application is ready."));
         System.out.println("Here is the POST login process!");
+        final Map<String, String[]> values = request().body().asFormUrlEncoded();
+        final String email = values.get("email")[0];
+        final String password = values.get("password")[0];
+        // params.get("email");
         // return ok(index.render());
-        return ok("Hello! Fevers~");
+        // return ok("Hello! Fevers~");
+        return ok("Hello "+email+", your password is "+password+". Is it right?");
     }
 
     public static Result resign() {
