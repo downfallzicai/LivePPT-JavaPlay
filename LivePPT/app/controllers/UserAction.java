@@ -30,15 +30,15 @@ public class UserAction extends Controller {
         	if (list.size()>=1){
             	
             	if (list.get(0).password.equals(password)){
-            		return ok("Welcome back,"+ username);
+            		return ok("Welcome back!"+ username);
             	} else {
-            		return ok("Fail to login with wrong password. ");
+            		return ok("密码错误 ");
             	}
             }else {
-            	return ok("Fail to login with no "+username);
+            	return ok("用户名:"+username+"不存在");
             }
         }catch (Exception e){
-        	return ok("Fail to login with no "+username);
+        	return ok("用户名:"+username+"不存在");
         }
         
     }
@@ -52,9 +52,9 @@ public class UserAction extends Controller {
         ut.password = values.get("password")[0];
         try{
         	ut.save();
-        	return ok("Successful Save!");
+        	return ok("注册成功!");
         }catch (Exception e){
-        	return ok("Save Error!The username was exist!");
+        	return ok("注册失败!"+e);
         }
         
     }
