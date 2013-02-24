@@ -32,13 +32,13 @@ public class UserAction extends Controller {
             	if (list.get(0).password.equals(password)){
             		return ok("Welcome back!"+ username);
             	} else {
-            		return ok("密码错误 ");
+            		return ok("密码错误 !");
             	}
             }else {
-            	return ok("用户名:"+username+"不存在");
+            	return ok("用户名:"+username+"不存在.");
             }
         }catch (Exception e){
-        	return ok("用户名:"+username+"不存在");
+        	return ok("用户名:"+username+"不存在.");
         }
         
     }
