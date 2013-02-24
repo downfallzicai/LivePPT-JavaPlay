@@ -25,16 +25,22 @@ public class UserAction extends Controller {
         final String username = values.get("username")[0];
         final String password = values.get("password")[0];
          
-        List<UserTable> list = UserTable.find.where().eq("username", username).findList();
-        if (list.size()>=1){
-        	if (list.get(0).password.equals(password)){
-        		return ok("Welcome back,"+ username);
-        	} else {
-        		return ok("Fail to login with wrong password. ");
-        	}
-        }else {
+        try {
+        	List<UserTable> list = UserTable.find.where().eq("username", username).findList();
+        	if (list.size()>=1){
+            	
+            	if (list.get(0).password.equals(password)){
+            		return ok("Welcome back,"+ username);
+            	} else {
+            		return ok("Fail to login with wrong password. ");
+            	}
+            }else {
+            	return ok("Fail to login with no "+username);
+            }
+        }catch (Exception e){
         	return ok("Fail to login with no "+username);
         }
+        
     }
 
     public static Result register() {
