@@ -4,6 +4,8 @@ import play.*;
 import play.mvc.*;
 
 import views.html.*;
+
+import java.util.List;
 import java.util.Map;
 
 import models.mysql.UserTable;
@@ -22,10 +24,17 @@ public class UserAction extends Controller {
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
         final String username = values.get("username")[0];
         final String password = values.get("password")[0];
-
-        // return ok(index.render());
-        // return ok("Hello! Fevers~");
-        return ok("Hello "+username+", your password is "+password+". Is it right?");
+         
+        List<UserTable> list = UserTable.find.where().eq("username", username).findList();
+        if (list.size()>=1){
+        	if (list.get(0).password.equals(password)){
+        		return ok("Welcome back,"+ username);
+        	} else {
+        		return ok("Fail to login with wrong password. ");
+        	}
+        }else {
+        	return ok("Fail to login with no "+username);
+        }
     }
 
     public static Result register() {
@@ -41,7 +50,6 @@ public class UserAction extends Controller {
         }catch (Exception e){
         	return ok("Save Error!The username was exist!");
         }
-        
         
     }
   
