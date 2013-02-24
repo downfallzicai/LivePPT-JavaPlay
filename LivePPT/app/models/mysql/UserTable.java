@@ -10,7 +10,6 @@ import play.data.validation.*;
 public class UserTable extends Model {
 
   @Id
-  @Constraints.Min(10)
   public Long id;
   
   @Constraints.Required

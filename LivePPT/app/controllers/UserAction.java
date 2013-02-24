@@ -6,6 +6,8 @@ import play.mvc.*;
 import views.html.*;
 import java.util.Map;
 
+import models.mysql.UserTable;
+
 
 public class UserAction extends Controller {
   
@@ -26,15 +28,21 @@ public class UserAction extends Controller {
         return ok("Hello "+username+", your password is "+password+". Is it right?");
     }
 
-    public static Result resign() {
+    public static Result register() {
         // return ok(index.render("MY new application is ready."));
-        return TODO;
-    }
-
-    public static Result test(String username) {
-        // return ok(index.render("MY new application is ready."));
-        System.out.println(username);
-        return TODO;
+    	System.out.println("Here is the POST register process!");
+    	final Map<String, String[]> values = request().body().asFormUrlEncoded();
+        UserTable ut = new UserTable();
+        ut.username = values.get("username")[0];
+        ut.password = values.get("password")[0];
+        try{
+        	ut.save();
+        	return ok("Successful Save!");
+        }catch (Exception e){
+        	return ok("Save Error!The username was exist!");
+        }
+        
+        
     }
   
 }
