@@ -18,12 +18,12 @@ public class User extends Controller {
         // return ok(index.render("MY new application is ready."));
         System.out.println("Here is the POST login process!");
         final Map<String, String[]> values = request().body().asFormUrlEncoded();
-        final String email = values.get("email")[0];
+        final String username = values.get("username")[0];
         final String password = values.get("password")[0];
-        // params.get("email");
+
         // return ok(index.render());
         // return ok("Hello! Fevers~");
-        return ok("Hello "+email+", your password is "+password+". Is it right?");
+        return ok("Hello "+username+", your password is "+password+". Is it right?");
     }
 
     public static Result resign() {
