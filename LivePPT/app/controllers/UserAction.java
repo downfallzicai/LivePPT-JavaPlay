@@ -7,7 +7,7 @@ import views.html.*;
 import java.util.Map;
 
 
-public class User extends Controller {
+public class UserAction extends Controller {
   
     public static Result index() {
         // return ok(index.render("MY new application is ready."));
