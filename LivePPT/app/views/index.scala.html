@@ -10,7 +10,7 @@ $(document).ready(function(){
   $("button").click(function(){
     $.post("/login",
     {
-      email:"fever.com",
+      username:"lwj",
       password:"fever"
     },
     function(data,status){
@@ -22,7 +22,7 @@ $(document).ready(function(){
     url:'/login',
     type:'post',
     data:{
-      email: "2345678",
+      username: "2345678",
       password: "2345678",
     },
     success:function(res){
@@ -49,5 +49,10 @@ LiWeiJie <br>
 <button>向页面发送 HTTP POST 请求，并获得返回的结果</button>
 
 </body>
+<form action="/register" method = "POST">
+	<input type="text" name = "username"><br>
+	<input type="password" name = "password"><br>
+	<input type="submit">
+</form>
 
 </html>
