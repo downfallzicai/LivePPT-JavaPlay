@@ -20,7 +20,7 @@ import models.mysql.UserTable;
 
 public class UserAction extends Controller {
 	
-	public String EncoderByMd5(String str) throws NoSuchAlgorithmException, 
+	public static String EncoderByMd5(String str) throws NoSuchAlgorithmException, 
 	UnsupportedEncodingException{
 	        //确定计算方法
 	        MessageDigest md5=MessageDigest.getInstance("MD5");
@@ -49,7 +49,8 @@ public class UserAction extends Controller {
             	if (list.get(0).password.equals(password)){
             		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             		System.out.println(df.getCalendar().toString());
-            		return ok("Welcome back!"+ username);
+            		String hashkey = EncoderByMd5(df.getCalendar().toString()+username);
+            		return ok(hashkey);
             	} else {
             		return ok("101		密码错误 ");
             	}
