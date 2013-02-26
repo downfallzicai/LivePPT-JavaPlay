@@ -5,10 +5,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import models.mysql.UserTable;
 
-import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
 
 import play.libs.Json;
@@ -26,10 +26,10 @@ public class UserAuthentication {
 		return newstr;
 	}
 	
-	public static ObjectNode login(JsonNode json){
+	public static ObjectNode login(Map<String, String[]> values){
 		ObjectNode result = Json.newObject();
-		String username = json.findPath("username").getTextValue();
-		String password = json.findPath("password").getTextValue();
+		final String username = values.get("username")[0];
+		final String password = values.get("password")[0];
 		if (username == null) {
 			result.put("status", "102		用户不存在");
 		} else {
@@ -39,13 +39,11 @@ public class UserAuthentication {
 				if (list.size() >= 1) {
 
 					if (list.get(0).password.equals(password)) {
-						long nt = new Date().getTime();
-						System.out.println(nt);
-						
+						long nt = new Date().getTime();						
 						String hashkey = EncoderByMd5(nt + username);
-						result.put("status", "OK");
+						result.put("status", "ok");
 						result.put("access_token", hashkey);
-				
+						
 					} else {
 						result.put("status", "101		密码错误 ");
 					}
@@ -60,6 +58,22 @@ public class UserAuthentication {
 		
 		return result;
 		
+	}
+	
+	public static ObjectNode register(Map<String, String[]> values){
+		UserTable ut = new UserTable();
+		ObjectNode result = Json.newObject();
+		ut.username = values.get("username")[0];
+		ut.password = values.get("password")[0];
+		try {
+			ut.save();
+			result = login(values);
+			
+			result.put("acce", "ok");
+		} catch (Exception e) {
+			result.put("status", "103");
+		}
+		return result;
 	}
 
 }
