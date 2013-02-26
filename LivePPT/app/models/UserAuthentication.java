@@ -38,18 +38,37 @@ public class UserAuthentication {
 						.eq("username", username).findList();
 				if (list.size() >= 1) {
 					if (list.get(0).password.equals(password)) {
-						long nt = new Date().getTime();						
-						String hashkey = EncoderByMd5(nt + username);
 						result.put("status", "ok");
-						result.put("access_token", hashkey);
+						long nt = new Date().getTime();
+						String access_token;
+						long expires_in;
+						long id = list.get(0).id;
+						UserTable ut = UserTable.find.byId(id);
+						if (ut.access_token!=null&&ut.expires_in>nt){
+							access_token = ut.access_token;
+							expires_in = ut.expires_in;
+						} else {
+							access_token = EncoderByMd5(nt + username);
+							expires_in = nt+259200000;		//有效期为3日
+							ut.access_token = access_token;
+							ut.expires_in = expires_in;
+							ut.save();	
+						}
+						
+						result.put("access_token", access_token);
+						result.put("expires_in", expires_in);
+						result.put("id", id);
 						
 					} else {
 						result.put("status", "101		密码错误 ");
 					}
 				} else {
+					System.out.println("user nofind");
+					System.out.println(list.size());
 					result.put("status", "102		用户不存在");
 				}
 			} catch (Exception e) {
+				System.out.println("Catch Error");
 				result.put("status", "102		用户不存在");
 			}
 		}
@@ -70,5 +89,5 @@ public class UserAuthentication {
 		}
 		return result;
 	}
-
+	
 }

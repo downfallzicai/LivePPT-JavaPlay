@@ -10,9 +10,6 @@ create table user (
   constraint pk_user primary key (id))
 ;
 
-
-
-
 # --- !Downs
 
 SET FOREIGN_KEY_CHECKS=0;
