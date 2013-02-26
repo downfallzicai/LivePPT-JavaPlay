@@ -18,6 +18,10 @@ public class UserTable extends Model {
   @Constraints.Required
   public String password;
   
+  public long expires_in;
+  
+  public String access_token;
+  
   public static Finder<Long,UserTable> find = new Finder<Long,UserTable>(
     Long.class, UserTable.class
   ); 
