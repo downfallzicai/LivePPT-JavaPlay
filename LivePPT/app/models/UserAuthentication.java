@@ -31,7 +31,8 @@ public class UserAuthentication {
 		final String username = values.get("username")[0];
 		final String password = values.get("password")[0];
 		if (username == null) {
-			result.put("status", "102		用户不存在");
+			result.put("status", "102");
+			result.put("statusMessage", "用户不存在");
 		} else {
 			try {
 				List<UserTable> list = UserTable.find.where()
@@ -60,16 +61,16 @@ public class UserAuthentication {
 						result.put("id", id);
 						
 					} else {
-						result.put("status", "101		密码错误 ");
+						result.put("status", "101");
+						result.put("statusMessage", "密码错误 ");
 					}
 				} else {
-					System.out.println("user nofind");
-					System.out.println(list.size());
-					result.put("status", "102		用户不存在");
+					result.put("status", "102");
+					result.put("statusMessage", "用户不存在");
 				}
 			} catch (Exception e) {
-				System.out.println("Catch Error");
-				result.put("status", "102		用户不存在");
+				result.put("status", "102");
+				result.put("statusMessage", "用户不存在");
 			}
 		}
 		return result;
@@ -85,7 +86,8 @@ public class UserAuthentication {
 			ut.save();
 			result = login(values);
 		} catch (Exception e) {
-			result.put("status", "103		用户名已存在");
+			result.put("status", "103");
+			result.put("statusMessage", "用户名已存在");
 		}
 		return result;
 	}
@@ -102,13 +104,16 @@ public class UserAuthentication {
 					ut.save();
 					result.put("status", "ok");
 				} else {
-					result.put("status", "106		登陆令牌超出有效期");
+					result.put("status", "106");
+					result.put("statusMessage", "登陆令牌超出有效期");
 				}
 			} else {
-				result.put("status", "105		登陆令牌错误");
+				result.put("status", "105");
+				result.put("statusMessage", "登陆令牌错误");
 			}
 		}catch (Exception e){
-			result.put("status", "107		新密码写入错误");
+			result.put("status", "107");
+			result.put("statusMessage", "新密码写入错误");
 		}		
 		return result;
 	}

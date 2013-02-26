@@ -26,7 +26,8 @@ public class UserAction extends Controller {
 		request().body().asFormUrlEncoded();
 		ObjectNode result = Json.newObject();
 		if (values == null) {	
-			result.put("status", "104		找不到参数");
+			result.put("status", "104");
+			result.put("statusMessage", "找不到参数");
 		} else {
 			result = UserAuthentication.login(values);
 		}
@@ -42,7 +43,12 @@ public class UserAction extends Controller {
 		final Map<String, String[]> values = request().body()
 				.asFormUrlEncoded();
 		ObjectNode result = Json.newObject();
-		result = UserAuthentication.register(values);
+		if (values == null) {	
+			result.put("status", "104");
+			result.put("statusMessage", "找不到参数");
+		} else {
+			result = UserAuthentication.register(values);
+		}
 		if (result.get("status").asText().equals("ok")){
 			return ok(result);
 		}else 
@@ -53,7 +59,12 @@ public class UserAction extends Controller {
 		final Map<String, String[]> values = request().body()
 				.asFormUrlEncoded();
 		ObjectNode result = Json.newObject();
-		result = UserAuthentication.modifyPwd(values);
+		if (values == null) {	
+			result.put("status", "104");
+			result.put("statusMessage", "找不到参数");
+		} else {
+			result = UserAuthentication.modifyPwd(values);
+		}		
 		if (result.get("status").asText().equals("ok")){
 			return ok(result);
 		}else 
