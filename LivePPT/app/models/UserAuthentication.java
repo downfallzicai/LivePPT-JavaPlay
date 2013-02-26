@@ -90,4 +90,27 @@ public class UserAuthentication {
 		return result;
 	}
 	
+	public static ObjectNode modifyPwd(Map<String, String[]> values){
+		long id = Long.parseLong(values.get("id")[0]);
+		ObjectNode result = Json.newObject();
+		UserTable ut = UserTable.find.byId(id);
+		String access_token = values.get("access_token")[0];
+		try {
+			if (access_token.equals(ut.access_token)){
+				if (ut.expires_in<new Date().getTime()){
+					ut.password = values.get("password")[0];
+					ut.save();
+					result.put("status", "ok");
+				} else {
+					result.put("status", "106		登陆令牌超出有效期");
+				}
+			} else {
+				result.put("status", "105		登陆令牌错误");
+			}
+		}catch (Exception e){
+			result.put("status", "107		新密码写入错误");
+		}		
+		return result;
+	}
+	
 }

@@ -48,5 +48,16 @@ public class UserAction extends Controller {
 		}else 
 			return badRequest(result);
 	}
+	
+	public static Result modifyPwd() {
+		final Map<String, String[]> values = request().body()
+				.asFormUrlEncoded();
+		ObjectNode result = Json.newObject();
+		result = UserAuthentication.modifyPwd(values);
+		if (result.get("status").asText().equals("ok")){
+			return ok(result);
+		}else 
+			return badRequest(result);
+	}
 
 }
