@@ -37,7 +37,6 @@ public class UserAuthentication {
 				List<UserTable> list = UserTable.find.where()
 						.eq("username", username).findList();
 				if (list.size() >= 1) {
-
 					if (list.get(0).password.equals(password)) {
 						long nt = new Date().getTime();						
 						String hashkey = EncoderByMd5(nt + username);
@@ -54,8 +53,6 @@ public class UserAuthentication {
 				result.put("status", "102		用户不存在");
 			}
 		}
-		
-		
 		return result;
 		
 	}
@@ -68,10 +65,8 @@ public class UserAuthentication {
 		try {
 			ut.save();
 			result = login(values);
-			
-			result.put("acce", "ok");
 		} catch (Exception e) {
-			result.put("status", "103");
+			result.put("status", "103		用户名已存在");
 		}
 		return result;
 	}
