@@ -31,7 +31,20 @@ $(document).ready(function(){
     error:function(e){
     console.log(e);
     }
-  })
+  });
+  
+  $.ajax({
+	    url:'/uploadFile',
+	    type:'post',
+	    data:{
+	    },
+	    success:function(res){
+	      console.log(res);
+	    },
+	    error:function(e){
+	    	console.log(e);
+	    }
+	  })
 
   
 });
