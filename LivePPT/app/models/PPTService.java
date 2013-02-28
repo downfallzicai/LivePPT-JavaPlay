@@ -5,6 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import org.codehaus.jackson.node.ObjectNode;
+
+import play.libs.Json;
+
 import com.aliyun.openservices.ClientConfiguration;
 import com.aliyun.openservices.ClientException;
 import com.aliyun.openservices.oss.OSSClient;
@@ -34,9 +38,9 @@ public class PPTService {
     
     
 	// 上传文件
-    public static String uploadFileService(String key, String filename)
+    public static ObjectNode uploadService(String key, String filename)
             throws OSSException, ClientException, FileNotFoundException {
-    	
+    	ObjectNode result = Json.newObject();
     	
     	String bucketName = "liveppt";
     	ensureBucket(client,bucketName);
@@ -51,9 +55,9 @@ public class PPTService {
 
         
         InputStream input = new FileInputStream(file);
-        String result = client.putObject(bucketName, key, input, objectMeta).getETag();
-        System.out.println(result);
+        String rt = client.putObject(bucketName, key, input, objectMeta).getETag();
+        result.put("status", "200");
+        result.put("status_message", rt);
         return result;
-        
     }
 }
