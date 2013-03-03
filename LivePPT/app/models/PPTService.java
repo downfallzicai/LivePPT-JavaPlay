@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Map;
+
+import models.mysql.PPTTable;
 
 import org.codehaus.jackson.node.ObjectNode;
 
@@ -37,15 +40,13 @@ public class PPTService {
     }
     
     
-	// 上传文件
-    public static ObjectNode uploadService(String key, String filename)
-            throws OSSException, ClientException, FileNotFoundException {
+	// 上传文件至OSS
+    public static ObjectNode uploadToOssService(String key, File file) {
     	ObjectNode result = Json.newObject();
     	
     	String bucketName = "liveppt";
     	ensureBucket(client,bucketName);
     	Bucket bucket = new Bucket(bucketName);
-        File file = new File(filename);
         System.out.println(client.isBucketExist(bucketName));
 
         ObjectMetadata objectMeta = new ObjectMetadata();
@@ -54,10 +55,38 @@ public class PPTService {
 //        objectMeta.setContentType("image/jpeg");
 
         
-        InputStream input = new FileInputStream(file);
-        String rt = client.putObject(bucketName, key, input, objectMeta).getETag();
-        result.put("status", "200");
-        result.put("status_message", rt);
-        return result;
+        InputStream input;
+		try {
+			input = new FileInputStream(file);
+			String rt = client.putObject(bucketName, key, input, objectMeta).getETag();
+	        result.put("status", "200");
+	        result.put("status_message", rt);
+	        
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			result.put("status", "109");
+	        result.put("status_message", e.toString());
+		}
+		return result;
     }
+    
+    public static ObjectNode updateSql(Map<String, String[]> values, File file){
+    	ObjectNode result = Json.newObject();
+
+    	PPTTable pt = new PPTTable();
+    	pt.name = file.getName();
+    	pt.owner_id = Long.parseLong(values.get("id")[0]);
+    	try {
+			pt.save();
+			result.put("status", "200");
+			result.put("status_message", "ok");
+			result.put("ppt_id", pt.id);
+		} catch (Exception e) {
+			System.out.println(e);
+			result.put("status", "109");
+			result.put("status_message", e.toString());
+		}
+        return result;
+    } 
 }
