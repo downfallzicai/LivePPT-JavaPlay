@@ -72,7 +72,6 @@ public class PPTAction extends Controller {
 		Map<String, String[]> values = request().body()
 				.asFormUrlEncoded();
 		result = PPTService.updateSqlConvert(values);
-		
 		return ok(result);
 	}
 	
