@@ -60,7 +60,7 @@ public class PPTService {
 			input = new FileInputStream(file);
 			String rt = client.putObject(bucketName, key, input, objectMeta).getETag();
 	        result.put("status", "200");
-	        result.put("status_message", rt);
+	        result.put("status_message", "ok");
 	        
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -75,7 +75,7 @@ public class PPTService {
     	ObjectNode result = Json.newObject();
 
     	PPTTable pt = new PPTTable();
-    	pt.name = file.getName();
+    	pt.name = values.get("ppt_name")[0];
     	pt.owner_id = Long.parseLong(values.get("id")[0]);
     	try {
 			pt.save();
@@ -102,11 +102,10 @@ public class PPTService {
     	try {
     		PPTTable pt = PPTTable.find.byId(ppt_id);
     		pt.convert_status = (long) 1;
-    		pt.ppt_pages = ppt_pages;
     		pt.save();
     		result.put("status", "200");
 			result.put("status_message", "ok");
-		} catch (Exception e) {
+		} catch (Exception  e) {
 			result.put("status", "110");
 			result.put("status_message", "找不到ppt");
 		}
@@ -114,30 +113,5 @@ public class PPTService {
     	return result;
     }
     
-    public static ObjectNode queryConvert(Map<String, String[]> values){
-    	ObjectNode result = Json.newObject();
-    	long ppt_id = Long.parseLong(values.get("ppt_id")[0]);
-    	long id = Long.parseLong(values.get("id")[0]);
-    	try {
-    		PPTTable pt = PPTTable.find.byId(ppt_id);
-        	if(pt.owner_id==id){
-        		if (pt.convert_status==1){
-        			result.put("status", "200");
-            		result.put("status_message", "ok");
-            		result.put("ppt_pages", pt.ppt_pages.toString());
-        		}else {
-        			result.put("status", "112");
-            		result.put("status_message", "ppt尚没有转换完");
-        		}
-        	}else {
-        		result.put("status", "111");
-        		result.put("status_message", "ppt不属于该用户");
-        	}
-    	} catch (Exception e){
-    		result.put("status", "110");
-			result.put("status_message", "找不到ppt");
-    	}
-    	
-    	return result;
-    }
+
 }

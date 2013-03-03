@@ -14,6 +14,7 @@ import models.UserAuthentication;
 
 import play.libs.Json;
 import play.mvc.Controller;
+import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Http.RequestBody;
 import play.mvc.Result;
 
@@ -22,30 +23,33 @@ public class PPTAction extends Controller {
 		System.out.println("upload");
 		ObjectNode result = Json.newObject();
 		RequestBody body = request().body();
-		final Map<String, String[]> values = body.asFormUrlEncoded();
+		final Map<String, String[]> values = body.asMultipartFormData().asFormUrlEncoded();
 		String fileName;
 		System.out.println(body);
-		if (values==null||values.containsKey("ppt_file")==false)	{
+		System.out.println(values);
+		System.out.println(values.get("id")[0]);
+		System.out.println(body.asMultipartFormData().getFile("ppt_file"));
+		File file = body.asMultipartFormData().getFile("ppt_file").getFile();
+		System.out.println(file);
+		if (values==null||file==null)	{
 			result.put("status", "104");
 			result.put("status_message", "缺少参数");
 			System.out.println("no values");
 			return badRequest(result);
-		} else {
-			fileName = values.get("ppt_file")[0];
 		}
 		System.out.println(values);
-		result = UserAuthentication.authentication(values);
-		if (!result.get("status").asText().equals("200")){
-			return badRequest(result);
-		}
-		File file = new File(fileName);	
+//		result = UserAuthentication.authentication(values);
+//		if (!result.get("status").asText().equals("200")){
+//			return badRequest(result);
+//		}
 		result = PPTService.updateSql(values, file);
 		if (!result.get("status").asText().equals("200")){
 			return badRequest(result);
 		}
 		fileName = file.getName();
 		System.out.println(fileName);
-		String key = result.get("ppt_id")+"//"+result.get("ppt_id")+".ppt";
+		String key = result.get("ppt_id")+"/"+result.get("ppt_id")+".ppt";
+		System.out.println(key);
 		try {
 			result = PPTService.uploadToOssService(key, file);
 			System.out.println("上传成功");
@@ -64,6 +68,7 @@ public class PPTAction extends Controller {
 		if (!result.get("status").asText().equals("200")){
 			return badRequest(result);
 		}		
+		System.out.println(result);
 		return ok(result);
 	}
 	
@@ -78,7 +83,7 @@ public class PPTAction extends Controller {
 	public static ObjectNode sendConvert(ObjectNode result){
 		Client cl = new Client();
 		try {
-			cl.postService("", result);
+			cl.postService("http://42.121.58.67:1234", result);
 		} catch (Exception e){
 			result.remove("status");
 			result.remove("status_message");
