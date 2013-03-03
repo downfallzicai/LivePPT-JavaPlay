@@ -41,8 +41,7 @@ public class PPTService {
     
     
 	// 上传文件至OSS
-    public static ObjectNode uploadToOssService(String key, File file) {
-    	ObjectNode result = Json.newObject();
+    public static ObjectNode uploadToOssService(String key, File file,ObjectNode result) {
     	
     	String bucketName = "liveppt";
     	ensureBucket(client,bucketName);

@@ -51,7 +51,7 @@ public class PPTAction extends Controller {
 		String key = result.get("ppt_id")+"/"+result.get("ppt_id")+".ppt";
 		System.out.println(key);
 		try {
-			result = PPTService.uploadToOssService(key, file);
+			result = PPTService.uploadToOssService(key, file,result);
 			System.out.println("上传成功");
 		} catch (OSSException | ClientException  e) {
 			// TODO Auto-generated catch block
@@ -83,7 +83,7 @@ public class PPTAction extends Controller {
 	public static ObjectNode sendConvert(ObjectNode result){
 		Client cl = new Client();
 		try {
-			cl.postService("http://42.121.58.67:1234", result);
+			cl.postService("http://42.121.58.67:1234/", result);
 		} catch (Exception e){
 			result.remove("status");
 			result.remove("status_message");
