@@ -8,6 +8,7 @@ import org.codehaus.jackson.node.ObjectNode;
 import com.aliyun.openservices.ClientException;
 import com.aliyun.openservices.oss.OSSException;
 
+import models.Client;
 import models.PPTService;
 import models.UserAuthentication;
 
@@ -56,7 +57,35 @@ public class PPTAction extends Controller {
 			result.put("status","109");
 			result.put("status_message",e.toString());
 		}
+		if (!result.get("status").asText().equals("200")){
+			return badRequest(result);
+		}
+		result = sendConvert(result);
+		if (!result.get("status").asText().equals("200")){
+			return badRequest(result);
+		}		
 		return ok(result);
 	}
 	
+	public static Result convertStatus() {
+		ObjectNode result =Json.newObject();
+		Map<String, String[]> values = request().body()
+				.asFormUrlEncoded();
+		result = PPTService.updateSqlConvert(values);
+		return ok(result);
+	}
+	
+	public static ObjectNode sendConvert(ObjectNode result){
+		Client cl = new Client();
+		try {
+			cl.postService("", result);
+		} catch (Exception e){
+			result.remove("status");
+			result.remove("status_message");
+			result.put("status","109");
+			result.put("status_message", "转换失败");
+		}
+		return result;
+	}
+
 }
