@@ -72,7 +72,7 @@ public class UserAuthentication {
 				if (list.size() >= 1) {
 					if (list.get(0).password.equals(password)) {
 						result.put("status", "200");
-						result.put("statusMessage", "ok");
+						result.put("status_message", "ok");
 						long nt = new Date().getTime();
 						String access_token;
 						long expires_in;
@@ -121,7 +121,7 @@ public class UserAuthentication {
 		} catch (Exception e) {
 			System.out.println(e);
 			result.put("status", "103");
-			result.put("statusMessage", "用户名已存在");
+			result.put("status_message", "用户名已存在");
 		}
 		return result;
 	}
@@ -132,7 +132,7 @@ public class UserAuthentication {
 		UserTable ut = UserTable.find.byId(id);
 		if (values.containsKey("oPassword")==false){
 			result.put("status", "104");
-			result.put("statusMessage", "缺少参数");
+			result.put("status_message", "缺少参数");
 			return result;
 		}
 		try {
@@ -140,14 +140,14 @@ public class UserAuthentication {
 				ut.password = values.get("password")[0];
 				ut.save();
 				result.put("status", "200");
-				result.put("statusMessage", "ok");
+				result.put("status_message", "ok");
 			} else {
 				result.put("status", "101");
-				result.put("statusMessage", "密码错误");
+				result.put("status_message", "密码错误");
 			}
 		}catch (Exception e){
 			result.put("status", "107");
-			result.put("statusMessage", "新密码写入错误");
+			result.put("status_message", "新密码写入错误");
 		}		
 		return result;
 	}
