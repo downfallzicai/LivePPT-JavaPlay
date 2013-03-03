@@ -3,6 +3,13 @@
 
 # --- !Ups
 
+create table ppt (
+  id                        bigint auto_increment not null,
+  name                      varchar(255),
+  owner_id                  varchar(255),
+  constraint pk_ppt primary key (id))
+;
+
 create table user (
   id                        bigint auto_increment not null,
   username                  varchar(255),
@@ -18,6 +25,8 @@ create table user (
 # --- !Downs
 
 SET FOREIGN_KEY_CHECKS=0;
+
+drop table ppt;
 
 drop table user;
 

@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.node.ObjectNode;
@@ -14,15 +15,34 @@ import models.mysql.UserTable;
 
 import play.libs.Json;
 import play.mvc.Controller;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
+import play.mvc.Http.RequestBody;
 import play.mvc.Result;
 
 public class PPTAction extends Controller {
 	public static Result upload() {
-		final Map<String, String[]> values = request().body()
-				.asFormUrlEncoded();
+		System.out.println("upload");
+		RequestBody body = request().body();
+		final MultipartFormData values = body.asMultipartFormData();
 //		long id = Long.parseLong(values.get("id")[0]);
 //		String access_token = values.get("access_token")[0];
-		String fileName = values.get("ppt_file")[0];
+		System.out.println(body);
+		
+		if (values==null)	{
+			System.out.println("no values");
+			return badRequest("No ppt_file");
+		}
+		System.out.println(values);
+		List<FilePart> lis = values.getFiles();
+		System.out.println(lis);
+		if (values.getFile("ppt_file")==null){
+			System.out.println("no file");
+			return badRequest("No ppt_file");
+		}
+			
+		System.out.println(values.getFile("ppt_file"));
+		FilePart fileName = values.getFile("ppt_file");
 		ObjectNode result = Json.newObject();
 		
 		System.out.println("upload");
@@ -54,22 +74,22 @@ public class PPTAction extends Controller {
 //		} catch (Exception e) {
 //			result.put("status", "102");
 //		}
-		
-		File file = new File(fileName);
-		fileName = file.getName();
-		System.out.println(fileName);
-		String key = "1/1.ppt";
-		try {
-			result = PPTService.uploadService(key, file.toString());
-			System.out.println("上传成功");
-		} catch (OSSException | ClientException | FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("上传错误");
-			System.out.println(e);
-			result.put("status","109");
-			result.put("status_message","未登录错误");
-		}
+//		
+//		File file = new File(fileName);
+//		fileName = file.getName();
+//		System.out.println(fileName);
+//		String key = "1/1.ppt";
+//		try {
+//			result = PPTService.uploadService(key, file.toString());
+//			System.out.println("上传成功");
+//		} catch (OSSException | ClientException | FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			System.out.println("上传错误");
+//			System.out.println(e);
+//			result.put("status","109");
+//			result.put("status_message","未登录错误");
+//		}
 		
 		return ok(result);
 		

@@ -26,20 +26,53 @@ public class UserAuthentication {
 		return newstr;
 	}
 	
+	public static ObjectNode authentication(Map<String, String[]> values){
+		ObjectNode result = Json.newObject();
+		
+		if (values.containsKey("access_token")==true&&values.containsKey("id")==true){
+			String access_token = values.get("access_token")[0];
+			long id = Long.parseLong(values.get("id")[0]);
+			try {
+				UserTable ut = UserTable.find.byId(id);
+				if (access_token.equals(ut.access_token)){
+					if (ut.expires_in<new Date().getTime()){
+						result.put("status", "200");
+						result.put("status_message", "ok");
+					} else {
+						result.put("status", "106");
+						result.put("status_message", "登陆令牌超出有效期");
+					}
+				} else {
+					result.put("status", "105");
+					result.put("status_message", "登陆令牌错误");
+				}
+			}catch (Exception e){
+				result.put("status", "102");
+				result.put("status_message", "用户不存在");
+			}
+		} else {
+			result.put("status", "104");
+			result.put("status_message", "缺少参数");
+		}
+				
+		return result;
+	}
+	
 	public static ObjectNode login(Map<String, String[]> values){
 		ObjectNode result = Json.newObject();
 		final String username = values.get("username")[0];
 		final String password = values.get("password")[0];
 		if (username == null) {
 			result.put("status", "102");
-			result.put("statusMessage", "用户不存在");
+			result.put("status_message", "用户不存在");
 		} else {
 			try {
 				List<UserTable> list = UserTable.find.where()
 						.eq("username", username).findList();
 				if (list.size() >= 1) {
 					if (list.get(0).password.equals(password)) {
-						result.put("status", "ok");
+						result.put("status", "200");
+						result.put("statusMessage", "ok");
 						long nt = new Date().getTime();
 						String access_token;
 						long expires_in;
@@ -62,15 +95,15 @@ public class UserAuthentication {
 						
 					} else {
 						result.put("status", "101");
-						result.put("statusMessage", "密码错误 ");
+						result.put("status_message", "密码错误 ");
 					}
 				} else {
 					result.put("status", "102");
-					result.put("statusMessage", "用户不存在");
+					result.put("status_message", "用户不存在");
 				}
 			} catch (Exception e) {
 				result.put("status", "102");
-				result.put("statusMessage", "用户不存在");
+				result.put("status_message", "用户不存在");
 			}
 		}
 		return result;
@@ -86,6 +119,7 @@ public class UserAuthentication {
 			ut.save();
 			result = login(values);
 		} catch (Exception e) {
+			System.out.println(e);
 			result.put("status", "103");
 			result.put("statusMessage", "用户名已存在");
 		}
@@ -96,20 +130,20 @@ public class UserAuthentication {
 		long id = Long.parseLong(values.get("id")[0]);
 		ObjectNode result = Json.newObject();
 		UserTable ut = UserTable.find.byId(id);
-		String access_token = values.get("access_token")[0];
+		if (values.containsKey("oPassword")==false){
+			result.put("status", "104");
+			result.put("statusMessage", "缺少参数");
+			return result;
+		}
 		try {
-			if (access_token.equals(ut.access_token)){
-				if (ut.expires_in<new Date().getTime()){
-					ut.password = values.get("password")[0];
-					ut.save();
-					result.put("status", "ok");
-				} else {
-					result.put("status", "106");
-					result.put("statusMessage", "登陆令牌超出有效期");
-				}
+			if (ut.password.equals(values.get("oPassword")[0])){
+				ut.password = values.get("password")[0];
+				ut.save();
+				result.put("status", "200");
+				result.put("statusMessage", "ok");
 			} else {
-				result.put("status", "105");
-				result.put("statusMessage", "登陆令牌错误");
+				result.put("status", "101");
+				result.put("statusMessage", "密码错误");
 			}
 		}catch (Exception e){
 			result.put("status", "107");

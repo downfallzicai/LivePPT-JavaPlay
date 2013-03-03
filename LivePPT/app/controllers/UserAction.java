@@ -27,12 +27,12 @@ public class UserAction extends Controller {
 		ObjectNode result = Json.newObject();
 		if (values == null) {	
 			result.put("status", "104");
-			result.put("statusMessage", "找不到参数");
+			result.put("status_message", "找不到参数");
 		} else {
 			result = UserAuthentication.login(values);
 		}
 		;
-		if (result.get("status").asText().equals("ok")){
+		if (result.get("status").asText().equals("200")){
 			return ok(result);
 		}else 
 			return badRequest(result);
@@ -45,27 +45,40 @@ public class UserAction extends Controller {
 		ObjectNode result = Json.newObject();
 		if (values == null) {	
 			result.put("status", "104");
-			result.put("statusMessage", "找不到参数");
+			result.put("status_message", "找不到参数");
 		} else {
 			result = UserAuthentication.register(values);
 		}
-		if (result.get("status").asText().equals("ok")){
+		if (result.get("status").asText().equals("200")){
 			return ok(result);
 		}else 
 			return badRequest(result);
 	}
 	
 	public static Result modifyPwd() {
-		final Map<String, String[]> values = request().body()
+		 Map<String, String[]> values = request().body()
 				.asFormUrlEncoded();
 		ObjectNode result = Json.newObject();
 		if (values == null) {	
 			result.put("status", "104");
-			result.put("statusMessage", "找不到参数");
+			result.put("status_message", "找不到参数");
 		} else {
-			result = UserAuthentication.modifyPwd(values);
+			result = UserAuthentication.authentication(values);
+			if (result.get("status").asText().equals("200"))
+				result = UserAuthentication.modifyPwd(values);
 		}		
-		if (result.get("status").asText().equals("ok")){
+		if (result.get("status").asText().equals("200")){
+			return ok(result);
+		}else 
+			return badRequest(result);
+	}
+	
+	public static Result Authentication() {
+		final Map<String, String[]> values = request().body()
+				.asFormUrlEncoded();
+		ObjectNode result = Json.newObject();
+		result = UserAuthentication.authentication(values);
+		if (result.get("status").asText().equals("200")){
 			return ok(result);
 		}else 
 			return badRequest(result);
