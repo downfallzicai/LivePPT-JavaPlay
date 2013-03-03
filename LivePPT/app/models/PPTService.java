@@ -60,7 +60,7 @@ public class PPTService {
 			input = new FileInputStream(file);
 			String rt = client.putObject(bucketName, key, input, objectMeta).getETag();
 	        result.put("status", "200");
-	        result.put("status_message", rt);
+	        result.put("status_message", "ok");
 	        
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -75,7 +75,7 @@ public class PPTService {
     	ObjectNode result = Json.newObject();
 
     	PPTTable pt = new PPTTable();
-    	pt.name = file.getName();
+    	pt.name = values.get("ppt_name")[0];
     	pt.owner_id = Long.parseLong(values.get("id")[0]);
     	try {
 			pt.save();
@@ -96,15 +96,17 @@ public class PPTService {
     	
     	try {
     		PPTTable pt = PPTTable.find.byId(ppt_id);
-    		pt.is_convert = (long) 1;
+    		pt.convert_status = (long) 1;
     		pt.save();
     		result.put("status", "200");
 			result.put("status_message", "ok");
-		} catch (OSSException | ClientException  e) {
+		} catch (Exception  e) {
 			result.put("status", "110");
 			result.put("status_message", "找不到ppt");
 		}
     	
     	return result;
     }
+    
+    
 }
