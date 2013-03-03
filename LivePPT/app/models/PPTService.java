@@ -89,4 +89,22 @@ public class PPTService {
 		}
         return result;
     } 
+    
+    public static ObjectNode updateSqlConvert(Map<String, String[]> values){
+    	ObjectNode result = Json.newObject();
+    	long ppt_id = Long.parseLong(values.get("ppt_id")[0]);
+    	
+    	try {
+    		PPTTable pt = PPTTable.find.byId(ppt_id);
+    		pt.is_convert = (long) 1;
+    		pt.save();
+    		result.put("status", "200");
+			result.put("status_message", "ok");
+		} catch (OSSException | ClientException  e) {
+			result.put("status", "110");
+			result.put("status_message", "找不到ppt");
+		}
+    	
+    	return result;
+    }
 }

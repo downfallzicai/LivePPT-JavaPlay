@@ -59,4 +59,13 @@ public class PPTAction extends Controller {
 		return ok(result);
 	}
 	
+	public static Result convertStatus() {
+		ObjectNode result =Json.newObject();
+		Map<String, String[]> values = request().body()
+				.asFormUrlEncoded();
+		result = PPTService.updateSqlConvert(values);
+		
+		return ok(result);
+	}
+	
 }
