@@ -18,7 +18,9 @@ public class PPTTable extends Model {
   @Constraints.Required
   public Long owner_id;
   
-  public Long is_convert;
+  public Long convert_status;
+  
+  public Long ppt_pages;
   
   public static Finder<Long,PPTTable> find = new Finder<Long,PPTTable>(
     Long.class, PPTTable.class

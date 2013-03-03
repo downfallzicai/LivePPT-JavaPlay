@@ -93,17 +93,50 @@ public class PPTService {
     public static ObjectNode updateSqlConvert(Map<String, String[]> values){
     	ObjectNode result = Json.newObject();
     	long ppt_id = Long.parseLong(values.get("ppt_id")[0]);
-    	
+    	if (values.containsKey("ppt_pages")==false){
+    		result.put("status","104");
+    		result.put("status_message", "缺少参数");
+    		return result;
+    	}
+    	long ppt_pages = Long.parseLong(values.get("ppt_pages")[0]);
     	try {
     		PPTTable pt = PPTTable.find.byId(ppt_id);
-    		pt.is_convert = (long) 1;
+    		pt.convert_status = (long) 1;
+    		pt.ppt_pages = ppt_pages;
     		pt.save();
     		result.put("status", "200");
 			result.put("status_message", "ok");
-		} catch (OSSException | ClientException  e) {
+		} catch (Exception e) {
 			result.put("status", "110");
 			result.put("status_message", "找不到ppt");
 		}
+    	
+    	return result;
+    }
+    
+    public static ObjectNode queryConvert(Map<String, String[]> values){
+    	ObjectNode result = Json.newObject();
+    	long ppt_id = Long.parseLong(values.get("ppt_id")[0]);
+    	long id = Long.parseLong(values.get("id")[0]);
+    	try {
+    		PPTTable pt = PPTTable.find.byId(ppt_id);
+        	if(pt.owner_id==id){
+        		if (pt.convert_status==1){
+        			result.put("status", "200");
+            		result.put("status_message", "ok");
+            		result.put("ppt_pages", pt.ppt_pages.toString());
+        		}else {
+        			result.put("status", "112");
+            		result.put("status_message", "ppt尚没有转换完");
+        		}
+        	}else {
+        		result.put("status", "111");
+        		result.put("status_message", "ppt不属于该用户");
+        	}
+    	} catch (Exception e){
+    		result.put("status", "110");
+			result.put("status_message", "找不到ppt");
+    	}
     	
     	return result;
     }

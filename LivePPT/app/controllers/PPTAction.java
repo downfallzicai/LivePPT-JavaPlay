@@ -25,7 +25,7 @@ public class PPTAction extends Controller {
 		final Map<String, String[]> values = body.asFormUrlEncoded();
 		String fileName;
 		System.out.println(body);
-		if (values==null||!values.containsKey("id")||!values.containsKey("access_token")||!values.containsKey("ppt_file"))	{
+		if (values==null||values.containsKey("ppt_file")==false)	{
 			result.put("status", "104");
 			result.put("status_message", "缺少参数");
 			System.out.println("no values");
@@ -85,7 +85,23 @@ public class PPTAction extends Controller {
 			result.put("status","109");
 			result.put("status_message", "转换失败");
 		}
+		
 		return result;
+	}
+	
+	public static Result queryConvert() {
+		ObjectNode result =Json.newObject();
+		Map<String, String[]> values = request().body()
+				.asFormUrlEncoded();
+		result = UserAuthentication.authentication(values);
+		if (!result.get("status").asText().equals("200")){
+			return badRequest(result);
+		}
+		result = PPTService.queryConvert(values);
+		if (!result.get("status").asText().equals("200")){
+			return badRequest(result);
+		}
+		return ok(result);
 	}
 
 }
