@@ -14,9 +14,9 @@ public class Application extends Controller {
     public static Result help() {
         return ok(help.render("MY new application is ready."));
     }
-  //   public static Result indext() {
-		// return okrender();
-  //   }
+     public static Result indext() {
+		 return ok(indext.render());
+     }
 	public static Result tasks() {
 	    return TODO;
 	}

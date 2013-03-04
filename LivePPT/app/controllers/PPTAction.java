@@ -25,19 +25,13 @@ public class PPTAction extends Controller {
 		RequestBody body = request().body();
 		final Map<String, String[]> values = body.asMultipartFormData().asFormUrlEncoded();
 		String fileName;
-		System.out.println(body);
-		System.out.println(values);
-		System.out.println(values.get("id")[0]);
-		System.out.println(body.asMultipartFormData().getFile("ppt_file"));
 		File file = body.asMultipartFormData().getFile("ppt_file").getFile();
-		System.out.println(file);
 		if (values==null||file==null)	{
 			result.put("status", "104");
 			result.put("status_message", "缺少参数");
 			System.out.println("no values");
 			return badRequest(result);
 		}
-		System.out.println(values);
 		result = UserAuthentication.authentication(values);
 		if (!result.get("status").asText().equals("200")){
 			return badRequest(result);

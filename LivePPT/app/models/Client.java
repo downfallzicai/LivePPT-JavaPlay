@@ -26,12 +26,8 @@ public class Client {
 		MultipartEntity reqEntity = new MultipartEntity();
 		httpPost.setEntity(reqEntity);
 
-		System.out.println("post ready" );
-		System.out.println(json.toString());
-		System.out.println(json.get("ppt_id").asText() );
 		/** String param name */
 		StringBody ppt_id = new StringBody(json.get("ppt_id").asText());
-		System.out.println(json.get("ppt_id").asText() );
 		reqEntity.addPart("ppt_id", ppt_id);
 		
 		System.out.println("executing: " + httpPost.getRequestLine());

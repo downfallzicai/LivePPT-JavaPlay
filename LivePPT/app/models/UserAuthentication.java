@@ -35,7 +35,7 @@ public class UserAuthentication {
 			try {
 				UserTable ut = UserTable.find.byId(id);
 				if (access_token.equals(ut.access_token)){
-					if (ut.expires_in<new Date().getTime()){
+					if (ut.expires_in>new Date().getTime()){
 						result.put("status", "200");
 						result.put("status_message", "ok");
 					} else {

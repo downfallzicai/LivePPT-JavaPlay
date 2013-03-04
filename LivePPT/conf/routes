@@ -14,10 +14,11 @@ POST     /modifyPwd                 controllers.UserAction.modifyPwd
 
 # PPT pages
 POST     /upload                    controllers.PPTAction.upload
-POST     /convertStatus            controllers.PPTAction.convertStatus
-POST     /queryConvert            controllers.PPTAction.queryConvert
+POST     /convertStatus             controllers.PPTAction.convertStatus
+POST     /queryConvert              controllers.PPTAction.queryConvert
 
 # Others
+GET     /test            			controllers.Application.indext()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
