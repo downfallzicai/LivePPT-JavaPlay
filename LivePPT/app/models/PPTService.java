@@ -90,6 +90,7 @@ public class PPTService {
 
 	public static ObjectNode updateSqlConvert(Map<String, String[]> values,
 			ObjectNode result) {
+		System.out.println("try get params");
 		if (values.containsKey("ppt_pages") == false
 				|| values.containsKey("ppt_id") == false) {
 			result.put("status", "104");
@@ -98,6 +99,7 @@ public class PPTService {
 		}
 		long ppt_id = Long.parseLong(values.get("ppt_id")[0]);
 		long ppt_pages = Long.parseLong(values.get("ppt_pages")[0]);
+		System.out.println("updateSql");
 		try {
 			PPTTable pt = PPTTable.find.byId(ppt_id);
 			pt.convert_status = (long) 1;
@@ -109,7 +111,7 @@ public class PPTService {
 			result.put("status", "110");
 			result.put("status_message", "找不到ppt");
 		}
-
+		System.out.println("Successful updateSql");
 		return result;
 	}
 
