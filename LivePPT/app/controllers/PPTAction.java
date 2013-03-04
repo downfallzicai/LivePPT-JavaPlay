@@ -68,6 +68,7 @@ public class PPTAction extends Controller {
 	
 	public static Result convertStatus() {
 		ObjectNode result =Json.newObject();
+		System.out.println("recieve convertStatus");
 		Map<String, String[]> values = request().body()
 				.asFormUrlEncoded();
 		result = PPTService.updateSqlConvert(values,result);
