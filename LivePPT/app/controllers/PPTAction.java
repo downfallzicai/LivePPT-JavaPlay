@@ -42,7 +42,7 @@ public class PPTAction extends Controller {
 		if (!result.get("status").asText().equals("200")){
 			return badRequest(result);
 		}
-		result = PPTService.updateSql(values, file);
+		result = PPTService.updateSql(values, file,result);
 		if (!result.get("status").asText().equals("200")){
 			return badRequest(result);
 		}
@@ -76,7 +76,7 @@ public class PPTAction extends Controller {
 		ObjectNode result =Json.newObject();
 		Map<String, String[]> values = request().body()
 				.asFormUrlEncoded();
-		result = PPTService.updateSqlConvert(values);
+		result = PPTService.updateSqlConvert(values,result);
 		return ok(result);
 	}
 	
@@ -102,7 +102,7 @@ public class PPTAction extends Controller {
 		if (!result.get("status").asText().equals("200")){
 			return badRequest(result);
 		}
-		result = PPTService.queryConvert(values);
+		result = PPTService.queryConvert(values,result);
 		if (!result.get("status").asText().equals("200")){
 			return badRequest(result);
 		}
