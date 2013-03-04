@@ -20,6 +20,8 @@ public class PPTTable extends Model {
   
   public Long convert_status;
   
+  public Long ppt_pages;
+  
   public static Finder<Long,PPTTable> find = new Finder<Long,PPTTable>(
     Long.class, PPTTable.class
   ); 
