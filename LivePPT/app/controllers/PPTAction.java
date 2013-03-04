@@ -38,10 +38,10 @@ public class PPTAction extends Controller {
 			return badRequest(result);
 		}
 		System.out.println(values);
-//		result = UserAuthentication.authentication(values);
-//		if (!result.get("status").asText().equals("200")){
-//			return badRequest(result);
-//		}
+		result = UserAuthentication.authentication(values);
+		if (!result.get("status").asText().equals("200")){
+			return badRequest(result);
+		}
 		result = PPTService.updateSql(values, file);
 		if (!result.get("status").asText().equals("200")){
 			return badRequest(result);

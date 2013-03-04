@@ -92,10 +92,12 @@ public class PPTService {
     public static ObjectNode updateSqlConvert(Map<String, String[]> values){
     	ObjectNode result = Json.newObject();
     	long ppt_id = Long.parseLong(values.get("ppt_id")[0]);
+    	long ppt_pages = Long.parseLong(values.get("ppt_pages")[0]);
     	
     	try {
     		PPTTable pt = PPTTable.find.byId(ppt_id);
     		pt.convert_status = (long) 1;
+    		pt.ppt_pages = ppt_pages;
     		pt.save();
     		result.put("status", "200");
 			result.put("status_message", "ok");
