@@ -102,9 +102,12 @@ public class PPTService {
 		System.out.println("updateSql");
 		try {
 			PPTTable pt = PPTTable.find.byId(ppt_id);
+			System.out.println(pt.toString());
 			pt.convert_status = (long) 1;
 			pt.ppt_pages = ppt_pages;
+			
 			pt.save();
+			System.out.println(pt.toString());
 			result.put("status", "200");
 			result.put("status_message", "ok");
 		} catch (Exception e) {

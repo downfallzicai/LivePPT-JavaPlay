@@ -24,6 +24,11 @@ public class PPTTable extends Model {
   
   public static Finder<Long,PPTTable> find = new Finder<Long,PPTTable>(
     Long.class, PPTTable.class
-  ); 
+  );
+  
+  @Override
+  public String toString() {
+	  return "id="+id+"\nname="+name+"\nowner_id="+owner_id+"\nconvert_status="+convert_status+"\nppt_pages="+ppt_pages;
+  }
 
 }
