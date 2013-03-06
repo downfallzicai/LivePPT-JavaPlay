@@ -73,13 +73,13 @@ public class PPTService {
 	public static ObjectNode updateSql(Map<String, String[]> values, File file,
 			ObjectNode result) {
 		PPTTable pt = new PPTTable();
-		pt.name = values.get("ppt_name")[0];
+		pt.ppt_name = values.get("ppt_name")[0];
 		pt.owner_id = Long.parseLong(values.get("id")[0]);
 		try {
 			pt.save();
 			result.put("status", "200");
 			result.put("status_message", "ok");
-			result.put("ppt_id", pt.id);
+			result.put("ppt_id", pt.ppt_id);
 		} catch (Exception e) {
 			System.out.println(e);
 			result.put("status", "109");
@@ -105,8 +105,7 @@ public class PPTService {
 			System.out.println(pt.toString());
 			pt.convert_status = (long) 1;
 			pt.ppt_pages = ppt_pages;
-			
-			pt.save();
+			pt.update();
 			System.out.println(pt.toString());
 			result.put("status", "200");
 			result.put("status_message", "ok");

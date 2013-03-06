@@ -71,6 +71,7 @@ public class PPTAction extends Controller {
 		System.out.println("recieve convertStatus");
 		Map<String, String[]> values = request().body()
 				.asFormUrlEncoded();
+		System.out.println(values);
 		result = PPTService.updateSqlConvert(values,result);
 		if (!result.get("status").asText().equals("200")){
 			return badRequest(result);

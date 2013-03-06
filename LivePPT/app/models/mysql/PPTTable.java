@@ -10,16 +10,22 @@ import play.data.validation.*;
 public class PPTTable extends Model {
 
   @Id
-  public Long id;
+  @Constraints.Required
+  @Column(name = "ppt_id")
+  public Long ppt_id;
   
   @Constraints.Required
-  public String name;
+  @Column(name = "ppt_name")
+  public String ppt_name;
   
   @Constraints.Required
+  @Column(name = "owner_id")
   public Long owner_id;
   
+  @Column(name = "convert_status")
   public Long convert_status;
   
+  @Column(name = "ppt_pages")
   public Long ppt_pages;
   
   public static Finder<Long,PPTTable> find = new Finder<Long,PPTTable>(
@@ -28,7 +34,7 @@ public class PPTTable extends Model {
   
   @Override
   public String toString() {
-	  return "id="+id+"\nname="+name+"\nowner_id="+owner_id+"\nconvert_status="+convert_status+"\nppt_pages="+ppt_pages;
+	  return "---------\nid="+ppt_id+"\nname="+ppt_name+"\nowner_id="+owner_id+"\nconvert_status="+convert_status+"\nppt_pages="+ppt_pages+"\n---------\n";
   }
 
 }

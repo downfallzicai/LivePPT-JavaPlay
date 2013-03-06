@@ -76,7 +76,7 @@ public class UserAuthentication {
 						long nt = new Date().getTime();
 						String access_token;
 						long expires_in;
-						long id = list.get(0).id;
+						long id = list.get(0).user_id;
 						UserTable ut = UserTable.find.byId(id);
 						if (ut.access_token!=null&&ut.expires_in>nt){
 							access_token = ut.access_token;

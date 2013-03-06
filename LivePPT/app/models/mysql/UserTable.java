@@ -10,16 +10,22 @@ import play.data.validation.*;
 public class UserTable extends Model {
 
   @Id
-  public Long id;
+  @Constraints.Required
+  @Column(name = "user_id")
+  public Long user_id;
   
   @Constraints.Required
+  @Column(name = "username")
   public String username;
   
   @Constraints.Required
+  @Column(name = "password")
   public String password;
   
+  @Column(name = "expires_in")
   public long expires_in;
   
+  @Column(name = "access_token")
   public String access_token;
   
   public static Finder<Long,UserTable> find = new Finder<Long,UserTable>(
